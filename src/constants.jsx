@@ -1,0 +1,1 @@
+export const bedTypes=["general","ICU","First class","luxury suite"]
