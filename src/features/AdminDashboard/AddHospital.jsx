@@ -1,10 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Formik } from 'formik';
 import { bedTypes } from '../../constants';
+import { useAddHospitalMutation } from '../../services/hospApi';
 function AddHospital() {
+ var [newbedType,setNewBedtype]= useState({
+    bedType:'',
+    price:0
+  })
+  var[addedBedTypes,setAddedBedTypes]=useState();
+    var [addHospital]=  useAddHospitalMutation()
+  function addBedType(){
+    //alert("a")
+    setAddedBedTypes([addedBedTypes,newbedType])
+  }
   return (
     <div className='border border-2 border-info m-2 p-2'>
         <h2>AddHospital</h2>
+      
         
     <Formik
       initialValues={
@@ -15,11 +27,15 @@ function AddHospital() {
                             reviews:[],
                             bedTypes:[],
                             beds:[]
-                         }
+                          }
                     }
       
       onSubmit={(values)=>{
-        console.log("new hospital")
+        values.bedTypes=[...addedBedTypes]
+       addHospital((values)).then((res)=>{
+        console.log("res:",res)
+       })
+    
       }}
     >
       {({
@@ -41,7 +57,7 @@ function AddHospital() {
             value={values.hospitalName}
             placeholder='Enter Hospital Name'
           />
-          
+          <br />
           <input
             type="text"
             name="image"
@@ -50,19 +66,56 @@ function AddHospital() {
             value={values.image}
             placeholder='Enter Hospital image url'
           />
+          <br />
            <input
             type="text"
             name="area"
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.area}
-            placeholder='Enter Hospital Name'
+            placeholder='Enter Hospital area'
           />
-        <button>Add Bed Type to Hospital</button>
+           
+       
         <br />
+          
+         
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            + Bed Type
+          </button>
+          <br />
           <button type="submit" disabled={isSubmitting}>
             Submit
           </button>
+
+          <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Bed Type</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <label htmlFor="">Select Bed Type</label>
+                  <select onChange={(e)=>{setNewBedtype({...newbedType,bedType:e.target.value})}} name="" id="">
+                    <option value="null disabled selected">Please Select</option>
+                    {
+                      bedTypes.map((bedtype)=>{
+                        return <option value={bedtype}>{bedtype}</option>
+                      })
+                    }
+                  </select>
+                  <br />
+                  <label htmlFor="">Set Price:</label>
+                  <input type="text" placeholder='Enter price' onChange={(e)=>{setNewBedtype({...newbedType,price:e.target.value})}} />
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={()=>{addBedType(values)}}>Add Bed Type</button>
+      </div>
+    </div>
+  </div>
+</div>
         </form>
       )}
     </Formik>

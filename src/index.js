@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "../node_modules/bootstrap/dist/js/bootstrap.min"
 import { createRoot } from "react-dom/client";
+import { Provider } from 'react-redux';
+import { store } from './app/store';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -13,6 +15,7 @@ import {
 import AdminDashboard from './features/AdminDashboard/AdminDashboard';
 import Home from './features/Home/Home';
 import AddHospital from './features/AdminDashboard/AddHospital';
+import AddBed from './features/AdminDashboard/AddBed';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +29,10 @@ const router = createBrowserRouter([
           {
             path:"/admindashboard/addhospital",
             element: <AddHospital></AddHospital>
+          },
+          {
+            path:"/admindashboard/addBed",
+            element: <AddBed></AddBed>
           }
         ]
 
@@ -39,7 +46,9 @@ const router = createBrowserRouter([
   
 ]);
 createRoot(document.getElementById("root")).render(
+  <Provider store={store}>
   <RouterProvider router={router} />
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
