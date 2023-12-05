@@ -14,7 +14,6 @@ function AddBed() {
  var [bedTypes,setBedTypes]=useState([])
  function updateBedTypes(hn)
  {
-  
   setBedTypes(JSON.parse(hn).bedTypes)
  }
   return (
