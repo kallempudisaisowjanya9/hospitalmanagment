@@ -7,7 +7,7 @@ function AddHospital() {
     bedType:'',
     price:0
   })
-  var[addedBedTypes,setAddedBedTypes]=useState();
+  var[addedBedTypes,setAddedBedTypes]=useState([]);
     var [addHospital]=  useAddHospitalMutation()
   function addBedType(){
     //alert("a")
@@ -78,6 +78,20 @@ function AddHospital() {
            
        
         <br />
+        <ul>
+          {
+            addedBedTypes.length>0 && (<u>Selected bed types</u>)
+          }
+          {
+           addedBedTypes.length>0 && addedBedTypes.map((a)=>{
+           return <li>
+            <i>{a.bedType}</i> &nbsp;
+            <b>{a.price}</b>&nbsp;
+
+           </li>
+           }) 
+          }
+        </ul>
           
          
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
