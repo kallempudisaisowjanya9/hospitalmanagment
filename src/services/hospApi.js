@@ -18,12 +18,21 @@ export const hospApi = createApi({
         }
       }
     }),
+    addBeds: builder.mutation({
+      query:(details)=>{
+        return {
+          url:`/${details.selectedHospitalId}/beds`,
+          method:'PUT',
+          body:details.beds
+        }
+      }
+    }),
 }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const { 
-  useGetAllHospitalsQuery,useAddHospitalMutation
+  useGetAllHospitalsQuery,useAddHospitalMutation, useAddBedsMutation
  } = hospApi
  export default hospApi.reducer
