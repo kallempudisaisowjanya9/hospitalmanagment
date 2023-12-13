@@ -20,10 +20,11 @@ export const hospApi = createApi({
     }),
     addBeds: builder.mutation({
       query:(details)=>{
+        console.log("details",details)
         return {
-          url:`/${details.selectedHospitalId}/beds`,
+          url:`/${details.id}`,
           method:'PUT',
-          body:details.beds
+          body:details
         }
       }
     }),

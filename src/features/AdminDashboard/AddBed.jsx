@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAddBedsMutation, useGetAllHospitalsQuery } from '../../services/hospApi'
 
 function AddBed() {
@@ -15,17 +15,21 @@ var[selectedBedType,setSelectedBedType]=  useState('');
 //   patients:[]
 
 //  })
-var [selectedHospitalId,setSelectedHospitalId]=useState(null)
+var [selectedHospital,setSelectedHospital]=useState('')
  var [bedTypes,setBedTypes]=useState([])
  function updateBedTypes(hn)
  {
   var selectedHospitalDetails=JSON.parse(hn);
   setBedTypes(selectedHospitalDetails.bedTypes)
-  setSelectedHospitalId(selectedHospitalDetails.id)
+ // setSelectedHospitalId(selectedHospitalDetails.id)
+  console.log(selectedHospitalDetails.id)
  }
+ useEffect(()=>{
+  console.log("selectedhosp",selectedHospital)
+ },[selectedHospital])
  
  function saveBed(){
-  var beds=[];
+  var newbeds=[];
   for(var i=0;i<=bedCount-1;i++){
    var newBed={
     bedStatus: 'open',
@@ -34,10 +38,13 @@ var [selectedHospitalId,setSelectedHospitalId]=useState(null)
     patients:[],
     bedId:`${selectedBedType+(i+1)}`
    }
-  beds.push(newBed)
+  newbeds.push(newBed)
   }
-  console.log(beds)
-  //addBedsToDB(beds,selectedHospitalId)
+  var latestHospitalDetails= {...selectedHospital,beds:[...selectedHospital.beds,...newbeds]};
+  setSelectedHospital({...selectedHospital,beds:[...selectedHospital.beds,...newbeds]})
+  //console.log(selectedHospital)
+  // var a = [...beds,{id:selectedHospitalId}]
+   addBedsToDB(latestHospitalDetails)
  }
   return (
     <div className='border border-2 border-danger m-2 p-2'>
@@ -49,7 +56,7 @@ var [selectedHospitalId,setSelectedHospitalId]=useState(null)
 
           !isHospitalLoading &&(
             <>  
-            <select onChange={(e)=>{updateBedTypes(e.target.value)}} name="" id="">
+            <select onChange={(e)=>{setSelectedHospital(JSON.parse(e.target.value))}} name="" id="">
               <option value={null} disabled selected>Please Select</option>
               {
                 hospitals.map((h)=>{
@@ -63,12 +70,12 @@ var [selectedHospitalId,setSelectedHospitalId]=useState(null)
           )
         }
         {
-          bedTypes.length>0 && (
+       selectedHospital && selectedHospital.bedTypes.length>0 && (
             <>
             <select onChange={(e)=>{setSelectedBedType(e.target.value)}}>
             <option value={null} disabled selected> Please Select</option>
               {
-                bedTypes.map((bt)=>{
+                selectedHospital.bedTypes.map((bt)=>{
                   return <option value={bt.bedType}>{bt.bedType}</option>
                 })
               }

@@ -11,7 +11,7 @@ function AddHospital() {
     var [addHospital]=  useAddHospitalMutation()
   function addBedType(){
     //alert("a")
-    setAddedBedTypes([addedBedTypes,newbedType])
+    setAddedBedTypes([...addedBedTypes,newbedType])
   }
   return (
     <div className='border border-2 border-info m-2 p-2'>
