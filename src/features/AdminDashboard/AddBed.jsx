@@ -30,13 +30,14 @@ var [selectedHospital,setSelectedHospital]=useState('')
  
  function saveBed(){
   var newbeds=[];
+  var newBeds=selectedHospital.beds.filter(b=>b.bedtype===selectedBedType).length;
   for(var i=0;i<=bedCount-1;i++){
    var newBed={
     bedStatus: 'open',
     bedtype:selectedBedType,
     bedPrice,
     patients:[],
-    bedId:`${selectedBedType+(i+1)}`
+    bedId:`${selectedBedType+(newBeds+i+1)}`
    }
   newbeds.push(newBed)
   }
