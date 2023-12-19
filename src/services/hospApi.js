@@ -9,6 +9,9 @@ export const hospApi = createApi({
     getAllHospitals: builder.query({
       query: () => ``,
     }),
+    getHospitalDetailsById: builder.query({
+      query: (id) => `/${id}`,
+    }),
     addHospital: builder.mutation({
       query:(newHospital)=>{
         return {
@@ -34,6 +37,6 @@ export const hospApi = createApi({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const { 
-  useGetAllHospitalsQuery,useAddHospitalMutation, useAddBedsMutation
+  useGetAllHospitalsQuery,useAddHospitalMutation, useAddBedsMutation, useGetHospitalDetailsByIdQuery
  } = hospApi
  export default hospApi.reducer

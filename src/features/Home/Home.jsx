@@ -10,13 +10,13 @@ function Home() {
         {
           isLoading && (<b>Please wait...</b>)
         }
-        <ul className='d-flex flex-wrap'>
+        <ul className='d-flex flex-wrap p-0'>
         {
           !isLoading && (
             data.map((hospital)=>{
-              return <li className='w-25 border border-2' style={{listStyle:'none'}}>
+              return <li className='w-25 border border-2 p-2 m-2' style={{listStyle:'none'}}>
                 <h3 className='text-center'>{hospital.hospitalName.toUpperCase()}</h3>
-                <img src={hospital.image} width="100%"/>
+                <img src={hospital.image} width="100%" height="150px"/>
                 <br />
                 
                 <li>
