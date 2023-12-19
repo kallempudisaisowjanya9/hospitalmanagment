@@ -23,6 +23,22 @@ function HospitalDetails() {
       setBedTypes([...temp])
     }
   },[data])
+  function occupyBed(bid){
+    console.clear();
+    console.log(data)
+    var tempBeds=data.beds;
+    tempBeds=tempBeds.map((bed)=>{
+      if(bed.bedId==bid){
+        return {...bed,bedStatus:'occupied'}
+      }
+      else {
+        return bed;
+      }
+     
+    })
+    console.log("Temp bed::",tempBeds);
+    data={...data,beds:[...tempBeds]}
+  }
   return (
     <div>
       <h1>HospitalDetails</h1>
@@ -36,7 +52,18 @@ function HospitalDetails() {
             <ul>
               {
                 bedTypes.map((t)=>{
-                  return <li>{t}-{beds[t].length}</li>
+                  return <li>
+                    {t}-{beds[t].length}
+                    <br />
+                    {
+                      beds[t].map((bed)=>{
+                        return (<> { bed.bedStatus==='open' && <i class="bi bi-clipboard h4 m-2" onClick={()=>{occupyBed(bed.bedId)}}> </i>}
+                        { bed.bedStatus==='occupied' && <i class="bi bi-clipboard-fill h4 m-2" onClick={()=>{occupyBed(bed.bedId)}}> </i>}
+                        </>)
+                      })
+                    }
+                  
+                  </li>
                 })
               }
             </ul>
